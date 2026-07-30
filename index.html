@@ -47,6 +47,23 @@
     object-fit: cover; object-position: center;
   }
 
+  .zoom-in {
+    animation: kenburns-in 8s ease-in-out infinite alternate;
+    transform-origin: center center;
+  }
+  .zoom-venue {
+    animation: kenburns-venue 8s ease-in-out infinite alternate;
+    transform-origin: center bottom;
+  }
+  @keyframes kenburns-in {
+    from { transform: scale(1); }
+    to { transform: scale(1.12); }
+  }
+  @keyframes kenburns-venue {
+    from { transform: scale(1.08) translateY(2%); }
+    to { transform: scale(1) translateY(0%); }
+  }
+
   .scene-overlay {
     position: absolute; inset: 0;
     background: rgba(5,6,5,0.52);
@@ -202,7 +219,7 @@
 
   <!-- SCENE 5: The pool surprise -->
   <div class="scene" id="s5" data-duration="4500">
-    <img src="pool.jpg" class="scene-bg" alt="">
+    <img src="pool.jpg" class="scene-bg zoom-in" alt="">
     <div class="scene-overlay" style="background:rgba(5,6,5,0.44)"></div>
     <div class="scene-text">
       <span class="eyebrow">We Said Resort</span>
@@ -228,7 +245,7 @@
 
   <!-- SCENE 7: Event venue -->
   <div class="scene" id="s7" data-duration="5000">
-    <img src="venue.jpg" class="scene-bg" alt="">
+    <img src="venue.jpg" class="scene-bg zoom-venue" alt="">
     <div class="scene-overlay" style="background:rgba(5,6,5,0.48)"></div>
     <div class="scene-text">
       <span class="eyebrow">The Fairway Room</span>
