@@ -37,26 +37,40 @@
   .scene-bg {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
-    object-fit: cover; object-position: center;
+    object-fit: cover;
   }
+
+  /* Ken Burns on stills — NOT end card */
   .zoom-in {
-    animation: kenburns-in 8s ease-in-out infinite alternate;
+    animation: kenburns 9s ease-in-out infinite alternate;
+    transform-origin: center center;
   }
-  @keyframes kenburns-in {
+  @keyframes kenburns {
     from { transform: scale(1); }
     to { transform: scale(1.1); }
   }
+
+  /* Fix object-position per image */
+  .pos-center { object-position: center center; }
+  .pos-top { object-position: center top; }
+  /* Bunker — zoom out to show full scene */
+  .pos-bunker { object-position: center 30%; }
+  /* Snackbar/apparel on mobile — show more of the scene */
+  .pos-snack { object-position: center 40%; }
+  .pos-apparel { object-position: center 35%; }
+
   .scene-overlay { position: absolute; inset: 0; background: rgba(5,6,5,0.52); }
   .scene-text {
     position: relative; z-index: 10;
     text-align: center; padding: 2rem;
     pointer-events: none;
+    max-width: 90vw;
   }
   .eyebrow {
-    font-size: clamp(0.58rem, 1.3vw, 0.72rem);
-    font-weight: 400; letter-spacing: 0.44em;
+    font-size: clamp(0.52rem, 1.2vw, 0.72rem);
+    font-weight: 400; letter-spacing: 0.38em;
     text-transform: uppercase; color: var(--gold);
-    display: block; margin-bottom: 1.3rem;
+    display: block; margin-bottom: 1rem;
     opacity: 0; transform: translateY(10px);
     transition: opacity 1s ease 0.8s, transform 1s ease 0.8s;
   }
@@ -64,7 +78,7 @@
   .headline {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 300;
-    font-size: clamp(2.4rem, 7vw, 6.5rem);
+    font-size: clamp(2rem, 6vw, 6.5rem);
     line-height: 1.06; letter-spacing: 0.03em; color: var(--cream);
     opacity: 0; transform: translateY(20px);
     transition: opacity 1.2s ease 1s, transform 1.2s ease 1s;
@@ -73,13 +87,13 @@
   .headline em { font-style: italic; color: var(--gold-soft); }
   .gold-rule {
     width: 44px; height: 1px; background: var(--gold);
-    margin: 1.5rem auto; opacity: 0;
+    margin: 1.2rem auto; opacity: 0;
     transition: opacity 1s ease 1.1s;
   }
   .active .gold-rule { opacity: 1; }
   .sub {
-    font-size: clamp(0.72rem, 1.8vw, 0.98rem);
-    font-weight: 200; letter-spacing: 0.2em; color: var(--muted);
+    font-size: clamp(0.65rem, 1.6vw, 0.98rem);
+    font-weight: 200; letter-spacing: 0.18em; color: var(--muted);
     opacity: 0; transform: translateY(10px);
     transition: opacity 1s ease 1.3s, transform 1s ease 1.3s;
   }
@@ -94,40 +108,41 @@
     z-index: 10; pointer-events: none;
   }
   .end-logo {
-    width: clamp(140px, 22vw, 220px);
+    width: clamp(120px, 20vw, 200px);
     opacity: 0; transform: translateY(-10px);
     transition: opacity 1.2s ease 0.6s, transform 1.2s ease 0.6s;
     filter: brightness(0) invert(1);
-    margin-bottom: 1.6rem;
+    margin-bottom: 1.4rem;
   }
   .active .end-logo { opacity: 1; transform: none; }
   .end-tagline {
     font-family: 'Jost', sans-serif;
-    font-size: clamp(1.6rem, 4vw, 3rem);
+    font-size: clamp(1.4rem, 3.5vw, 3rem);
     font-weight: 700; letter-spacing: 0.1em;
     text-transform: uppercase; color: var(--cream);
     opacity: 0; transform: translateY(14px);
     transition: opacity 1.1s ease 1s, transform 1.1s ease 1s;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.5rem; white-space: nowrap;
   }
   .active .end-tagline { opacity: 1; transform: none; }
   .end-tagline span { color: var(--gold); }
   .end-sub {
-    font-size: clamp(0.65rem, 1.5vw, 0.82rem);
-    font-weight: 300; letter-spacing: 0.38em;
+    font-size: clamp(0.58rem, 1.3vw, 0.78rem);
+    font-weight: 300; letter-spacing: 0.3em;
     text-transform: uppercase; color: var(--muted);
     opacity: 0;
     transition: opacity 1s ease 1.3s;
-    margin-bottom: 2.2rem;
+    margin-bottom: 2rem;
+    text-align: center;
   }
   .active .end-sub { opacity: 1; }
   .cta-btn {
     display: inline-block; pointer-events: all;
-    padding: 0.95rem 2.6rem;
+    padding: 0.9rem 2.4rem;
     border: 1px solid var(--gold); color: var(--gold-soft);
     font-family: 'Jost', sans-serif;
-    font-size: 0.72rem; font-weight: 400;
-    letter-spacing: 0.34em; text-transform: uppercase;
+    font-size: 0.7rem; font-weight: 400;
+    letter-spacing: 0.3em; text-transform: uppercase;
     text-decoration: none;
     opacity: 0; transition: opacity 1s ease 1.5s, background 0.3s, color 0.3s;
   }
@@ -140,21 +155,31 @@
     width: 0%; z-index: 100; transition: width linear;
   }
   #dots {
-    position: fixed; bottom: 2rem; left: 50%;
+    position: fixed; bottom: 1.5rem; left: 50%;
     transform: translateX(-50%);
-    display: flex; gap: 10px; z-index: 100;
+    display: flex; gap: 8px; z-index: 100;
   }
   .dot {
-    width: 6px; height: 6px; border-radius: 50%;
+    width: 5px; height: 5px; border-radius: 50%;
     border: 1px solid rgba(201,168,76,0.5);
     background: transparent; cursor: pointer; transition: background 0.3s;
   }
   .dot.active { background: var(--gold); border-color: var(--gold); }
+
+  /* Watermark — short on mobile */
   #watermark {
-    position: fixed; top: 2rem; right: 2rem;
-    font-size: 0.62rem; font-weight: 400;
-    letter-spacing: 0.28em; text-transform: uppercase;
+    position: fixed; top: 1.5rem; right: 1.5rem;
+    font-size: 0.58rem; font-weight: 400;
+    letter-spacing: 0.24em; text-transform: uppercase;
     color: rgba(201,168,76,0.4); z-index: 100;
+    white-space: nowrap;
+  }
+  @media (max-width: 480px) {
+    #watermark .long { display: none; }
+    .scene-text { padding: 1.2rem; }
+  }
+  @media (min-width: 481px) {
+    #watermark .short { display: none; }
   }
 </style>
 </head>
@@ -187,9 +212,9 @@
     </div>
   </div>
 
-  <!-- SCENE 3: Aerial -->
+  <!-- SCENE 3: Aerial — Ken Burns -->
   <div class="scene" id="s3" data-duration="4500">
-    <img src="aerial.jpg" class="scene-bg zoom-in" alt="">
+    <img src="aerial.jpg" class="scene-bg zoom-in pos-center" alt="">
     <div class="scene-overlay" style="background:rgba(5,6,5,0.45)"></div>
     <div class="scene-text">
       <span class="eyebrow">The Course</span>
@@ -197,9 +222,9 @@
     </div>
   </div>
 
-  <!-- SCENE 4: Water sport -->
+  <!-- SCENE 4: Water sport — Ken Burns -->
   <div class="scene" id="s4" data-duration="4500">
-    <img src="watersport.png" class="scene-bg" alt="">
+    <img src="watersport.png" class="scene-bg zoom-in pos-center" alt="">
     <div class="scene-overlay" style="background:rgba(5,6,5,0.38)"></div>
     <div class="scene-text">
       <span class="eyebrow">Water on every hole</span>
@@ -207,9 +232,9 @@
     </div>
   </div>
 
-  <!-- SCENE 5: Snack bar -->
+  <!-- SCENE 5: Snack bar — show full glass -->
   <div class="scene" id="s5" data-duration="4500">
-    <video autoplay muted loop playsinline class="scene-bg">
+    <video autoplay muted loop playsinline class="scene-bg pos-snack">
       <source src="snackbar.mp4" type="video/mp4">
     </video>
     <div class="scene-overlay" style="background:rgba(5,6,5,0.48)"></div>
@@ -219,9 +244,9 @@
     </div>
   </div>
 
-  <!-- SCENE 6: Blow ball -->
+  <!-- SCENE 6: Blow ball — Ken Burns -->
   <div class="scene" id="s6" data-duration="4500">
-    <img src="blowball.png" class="scene-bg" alt="">
+    <img src="blowball.png" class="scene-bg zoom-in pos-center" alt="">
     <div class="scene-overlay" style="background:rgba(5,6,5,0.42)"></div>
     <div class="scene-text">
       <span class="eyebrow">The Struggle Is Real</span>
@@ -229,9 +254,9 @@
     </div>
   </div>
 
-  <!-- SCENE 7: Bunker men -->
+  <!-- SCENE 7: Bunker men — show full scene -->
   <div class="scene" id="s7" data-duration="4500">
-    <img src="bunker.png" class="scene-bg" alt="">
+    <img src="bunker.png" class="scene-bg zoom-in pos-bunker" alt="">
     <div class="scene-overlay" style="background:rgba(5,6,5,0.42)"></div>
     <div class="scene-text">
       <span class="eyebrow">No Judgment Here</span>
@@ -239,9 +264,9 @@
     </div>
   </div>
 
-  <!-- SCENE 8: Apparel -->
+  <!-- SCENE 8: Apparel — show full shot -->
   <div class="scene" id="s8" data-duration="4000">
-    <video autoplay muted loop playsinline class="scene-bg">
+    <video autoplay muted loop playsinline class="scene-bg pos-apparel">
       <source src="apparel.mp4" type="video/mp4">
     </video>
     <div class="scene-overlay" style="background:rgba(5,6,5,0.48)"></div>
@@ -251,9 +276,9 @@
     </div>
   </div>
 
-  <!-- SCENE 9: Ladies -->
+  <!-- SCENE 9: Ladies — Ken Burns -->
   <div class="scene" id="s9" data-duration="4500">
-    <img src="ladies.png" class="scene-bg" alt="">
+    <img src="ladies.png" class="scene-bg zoom-in pos-center" alt="">
     <div class="scene-overlay" style="background:rgba(5,6,5,0.38)"></div>
     <div class="scene-text">
       <span class="eyebrow">Ladies Welcome</span>
@@ -261,15 +286,15 @@
     </div>
   </div>
 
-  <!-- SCENE 10: End card — gloveball -->
+  <!-- SCENE 10: End card — NO zoom, stays still and powerful -->
   <div class="scene" id="s10" data-duration="99999">
-    <img src="gloveball.png" class="scene-bg" alt="">
+    <img src="gloveball.png" class="scene-bg pos-center" alt="">
     <div class="scene-overlay" style="background:rgba(5,6,5,0.62)"></div>
     <div class="end-card">
       <img src="https://brownstonecountryclub.com/wp-content/uploads/2024/02/brown-logo.png"
            alt="Brownstone Country Club & Resort" class="end-logo">
       <div class="end-tagline">Tee Time.<span> Booked.</span></div>
-      <div class="end-sub">Golf &nbsp;·&nbsp; Dining &nbsp;·&nbsp; Events &nbsp;·&nbsp; Marion, Arkansas</div>
+      <div class="end-sub">Golf &nbsp;·&nbsp; Dining &nbsp;·&nbsp; Events &nbsp;·&nbsp; Marion, AR</div>
       <a href="https://brownstonecountryclub.com/book-a-tee-time/" target="_blank" class="cta-btn">
         Book a Tee Time
       </a>
@@ -280,7 +305,10 @@
 
 <div id="progress-bar"></div>
 <div id="dots"></div>
-<div id="watermark">Brownstone &nbsp;·&nbsp; Marion, AR</div>
+<div id="watermark">
+  <span class="long">Brownstone &nbsp;·&nbsp; Marion, AR</span>
+  <span class="short">Brownstone</span>
+</div>
 
 <script>
   const scenes = Array.from(document.querySelectorAll('.scene'));
